@@ -91,7 +91,7 @@ def includeme(config):
 
 
 def add_panel(config, panel=None, name="", context=None,
-              renderer=None, attr=None):
+              renderer=None, attr=None, request_type=None):
     """ Add a panel configuration to the current
     configuration state.
 
@@ -171,9 +171,20 @@ def add_panel(config, panel=None, name="", context=None,
       context is an instance of the represented class or
       if the context provides the represented interface;
       it is otherwise false.
+
+    request_type
+
+      This value should be an :term:`interface` that the
+      :term:`request` must provide in order for this panel
+      to be found and called.
     """
     panel = config.maybe_dotted(panel)
     context = config.maybe_dotted(context)
+    if request_type is not None:
+        request_type = config.maybe_dotted(request_type)
+        if not IInterface.providedBy(request_type):
+            raise ConfigurationError(
+                'request_type must be an interface, not %s' % request_type)
 
     if not panel:
         if renderer:
@@ -184,7 +195,7 @@ def add_panel(config, panel=None, name="", context=None,
                                      'no "renderer" specified')
 
     introspectables = []
-    discriminator = ['panel', context, name, IPanel, attr]
+    discriminator = ['panel', context, request_type, name, IPanel, attr]
     discriminator = tuple(discriminator)
     if inspect.isclass(panel) and attr:
         panel_desc = 'method %r of %s' % (
@@ -250,7 +261,7 @@ def add_panel(config, panel=None, name="", context=None,
                 _PanelMapper(attr)(panel), renderer))
 
         config.registry.registerAdapter(
-            derived_panel, (context,), IPanel, name)
+            derived_panel, (context, request_type), IPanel, name)
 
         if renderer is not None and renderer.name and '.' in renderer.name:
             # it's a template
@@ -268,7 +279,7 @@ def add_panel(config, panel=None, name="", context=None,
             introspectables.append(tmpl_intr)
 
     config.action(
-      ('panel', context, name),
+      ('panel', context, request_type, name),
       register,
       introspectables=introspectables
       )
@@ -295,7 +306,7 @@ class _PanelMapper(object):
 
 
 def add_layout(config, layout=None, template=None, name='', context=None,
-               containment=None):
+               containment=None, request_type=None):
     """
     Add a layout configuration to the current configuration state.
 
@@ -337,10 +348,21 @@ def add_layout(config, layout=None, template=None, name='', context=None,
         lineage of the context must provide in order for this view
         to be found and called.  The nodes in your object graph must be
         "location-aware" to use this feature.
+
+    request_type
+
+        This value should be an :term:`interface` that the
+        :term:`request` must provide in order for this layout to be
+        found and called.
     """
     layout = config.maybe_dotted(layout)
     context = config.maybe_dotted(context)
     containment = config.maybe_dotted(containment)
+    if request_type is not None:
+        request_type = config.maybe_dotted(request_type)
+        if not IInterface.providedBy(request_type):
+            raise ConfigurationError(
+                'request_type must be an interface, not %s' % request_type)
 
     if layout is None:
         class layout(object):
@@ -352,7 +374,7 @@ def add_layout(config, layout=None, template=None, name='', context=None,
         raise ConfigurationError('"template" is required')
 
     introspectables = []
-    discriminator = ['layout', context, name, ILayout]
+    discriminator = ['layout', context, request_type, name, ILayout]
     discriminator = tuple(discriminator)
     layout_desc = 'Layout %s' % (
         config.object_description(layout))
@@ -387,11 +409,15 @@ def add_layout(config, layout=None, template=None, name='', context=None,
         r_context = context
         if r_context is None:
             r_context = Interface
+        r_request_type = request_type
+        if r_request_type is None:
+            r_request_type = Interface
         if not IInterface.providedBy(r_context):
             r_context = implementedBy(r_context)
-
+        if not IInterface.providedBy(r_request_type):
+            r_request_type = implementedBy(r_request_type)
         reg_layout = config.registry.adapters.lookup(
-            (r_context,), ILayout, name=name)
+            (r_context, r_request_type), ILayout, name=name)
         if isinstance(reg_layout, _MultiLayout):
             reg_layout[containment] = derived_layout
             return
@@ -402,10 +428,10 @@ def add_layout(config, layout=None, template=None, name='', context=None,
             reg_layout = derived_layout
 
         config.registry.registerAdapter(
-            reg_layout, (context,), ILayout, name=name)
+            reg_layout, (context, request_type), ILayout, name=name)
 
     config.action(
-      ('layout', context, name, containment),
+      ('layout', context, request_type, name, containment),
       register,
       introspectables=introspectables
       )

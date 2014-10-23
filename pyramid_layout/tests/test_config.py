@@ -107,7 +107,7 @@ class Test_add_panel(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('panel', None, ''))
+        self.assertEqual(discriminator, ('panel', None, None, ''))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {})
@@ -115,7 +115,7 @@ class Test_add_panel(unittest.TestCase):
         result = derived(None, None)
         self.assertEqual(result, 'TEST')
         self.assertIsInstance(result, unicode)
-        self.assertEqual(context, (None,))
+        self.assertEqual(context, (None, None))
         self.assertEqual(iface, IPanel)
         self.assertEqual(name, '')
 
@@ -135,7 +135,7 @@ class Test_add_panel(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('panel', None, ''))
+        self.assertEqual(discriminator, ('panel', None, None, ''))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {})
@@ -143,7 +143,7 @@ class Test_add_panel(unittest.TestCase):
         result = derived(None, None)
         self.assertEqual(result, 'TEST')
         self.assertIsInstance(result, unicode)
-        self.assertEqual(context, (None,))
+        self.assertEqual(context, (None, None))
         self.assertEqual(iface, IPanel)
         self.assertEqual(name, '')
 
@@ -165,7 +165,7 @@ class Test_add_panel(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('panel', None, ''))
+        self.assertEqual(discriminator, ('panel', None, None, ''))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {})
@@ -173,7 +173,7 @@ class Test_add_panel(unittest.TestCase):
         result = derived('CONTEXT', 'REQUEST')
         self.assertEqual(result, 'TEST')
         self.assertIsInstance(result, unicode)
-        self.assertEqual(context, (None,))
+        self.assertEqual(context, (None, None))
         self.assertEqual(iface, IPanel)
         renderer.render.assert_called_once_with(
             {'body': 'TEST'},
@@ -199,7 +199,7 @@ class Test_add_panel(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('panel', None, ''))
+        self.assertEqual(discriminator, ('panel', None, None, ''))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {})
@@ -207,7 +207,7 @@ class Test_add_panel(unittest.TestCase):
         result = derived('CONTEXT', 'REQUEST')
         self.assertEqual(result, 'TEST')
         self.assertIsInstance(result, unicode)
-        self.assertEqual(context, (None,))
+        self.assertEqual(context, (None, None))
         self.assertEqual(iface, IPanel)
         self.assertEqual(renderer.render.call_count, 0)
         self.assertEqual(name, '')
@@ -226,7 +226,7 @@ class Test_add_panel(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('panel', None, ''))
+        self.assertEqual(discriminator, ('panel', None, None, ''))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {})
@@ -234,7 +234,7 @@ class Test_add_panel(unittest.TestCase):
         result = derived('CONTEXT', 'REQUEST')
         self.assertEqual(result, 'TEST')
         self.assertIsInstance(result, unicode)
-        self.assertEqual(context, (None,))
+        self.assertEqual(context, (None, None))
         self.assertEqual(iface, IPanel)
         self.assertEqual(name, '')
 
@@ -262,7 +262,7 @@ class Test_add_panel(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('panel', None, ''))
+        self.assertEqual(discriminator, ('panel', None, None, ''))
         register()
         renderers.RendererHelper.assert_called_once_with(name=None,
             package=config.package, registry=config.registry)
@@ -272,7 +272,7 @@ class Test_add_panel(unittest.TestCase):
         result = derived('CONTEXT', 'REQUEST')
         self.assertEqual(result, 'TEST')
         self.assertIsInstance(result, unicode)
-        self.assertEqual(context, (None,))
+        self.assertEqual(context, (None, None))
         self.assertEqual(iface, IPanel)
         renderer.render.assert_called_once_with(
             {'body': 'TEST'},
@@ -295,7 +295,7 @@ class Test_add_panel(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('panel', None, ''))
+        self.assertEqual(discriminator, ('panel', None, None, ''))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {})
@@ -303,7 +303,7 @@ class Test_add_panel(unittest.TestCase):
         result = derived(None, None)
         self.assertEqual(result, 'TEST')
         self.assertIsInstance(result, unicode)
-        self.assertEqual(context, (None,))
+        self.assertEqual(context, (None, None))
         self.assertEqual(iface, IPanel)
         self.assertEqual(name, '')
 
@@ -321,7 +321,7 @@ class Test_add_panel(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('panel', None, ''))
+        self.assertEqual(discriminator, ('panel', None, None, ''))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {})
@@ -329,7 +329,7 @@ class Test_add_panel(unittest.TestCase):
         result = derived(None, None, 'hello', bar='sir')
         self.assertEqual(result, 'hello sir')
         self.assertIsInstance(result, unicode)
-        self.assertEqual(context, (None,))
+        self.assertEqual(context, (None, None))
         self.assertEqual(iface, IPanel)
         self.assertEqual(name, '')
 
@@ -347,7 +347,7 @@ class Test_add_panel(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('panel', None, ''))
+        self.assertEqual(discriminator, ('panel', None, None, ''))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {})
@@ -355,7 +355,7 @@ class Test_add_panel(unittest.TestCase):
         result = derived(None, None)
         self.assertEqual(result, 'TEST')
         self.assertIsInstance(result, unicode)
-        self.assertEqual(context, (None,))
+        self.assertEqual(context, (None, None))
         self.assertEqual(iface, IPanel)
         self.assertEqual(name, '')
 
@@ -373,6 +373,7 @@ class Test_add_layout(unittest.TestCase):
             self.call_fut(config)
 
     def test_it(self):
+        from pyramid.interfaces import IRequest
         from pyramid_layout.interfaces import ILayout
         config = mock.Mock()
         config.maybe_dotted = lambda x: x
@@ -380,11 +381,11 @@ class Test_add_layout(unittest.TestCase):
         template.filename = 'test_template.pt'
         renderer_factory = config.registry.queryUtility.return_value
         renderer_factory.return_value.implementation.return_value = template
-        self.call_fut(config, template=template, context=object)
+        self.call_fut(config, template=template, context=object, request_type=IRequest)
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('layout', object, '', None))
+        self.assertEqual(discriminator, ('layout', object, IRequest, '', None))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {'name': ''})
@@ -394,10 +395,11 @@ class Test_add_layout(unittest.TestCase):
         self.assertEqual(layout.__template__, template)
         self.assertEqual(layout.context, 'context')
         self.assertEqual(layout.request, 'request')
-        self.assertEqual(context, (object,))
+        self.assertEqual(context, (object, IRequest))
         self.assertEqual(iface, ILayout)
 
     def test_string_template(self):
+        from pyramid.interfaces import IRequest
         from pyramid_layout.interfaces import ILayout
         config = mock.Mock()
         config.maybe_dotted = lambda x: x
@@ -406,11 +408,11 @@ class Test_add_layout(unittest.TestCase):
         renderer.filename = 'test_template.pt'
         renderer_factory = config.registry.queryUtility.return_value
         renderer_factory.return_value = renderer
-        self.call_fut(config, template=template, context=object)
+        self.call_fut(config, template=template, context=object, request_type=IRequest)
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('layout', object, '', None))
+        self.assertEqual(discriminator, ('layout', object, IRequest, '', None))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {'name': ''})
@@ -420,7 +422,7 @@ class Test_add_layout(unittest.TestCase):
         self.assertEqual(layout.__template__.renderer, renderer)
         self.assertEqual(layout.context, 'context')
         self.assertEqual(layout.request, 'request')
-        self.assertEqual(context, (object,))
+        self.assertEqual(context, (object, IRequest))
         self.assertEqual(iface, ILayout)
 
     def test_multi_layout(self):
@@ -441,7 +443,7 @@ class Test_add_layout(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('layout', None, 'foo', Container))
+        self.assertEqual(discriminator, ('layout', None, None, 'foo', Container))
         register()
         args, kwargs = config.registry.registerAdapter.call_args
         self.assertEqual(kwargs, {'name': 'foo'})
@@ -455,7 +457,7 @@ class Test_add_layout(unittest.TestCase):
         self.assertEqual(layout.__template__, template)
         self.assertEqual(layout.context, container)
         self.assertEqual(layout.request, 'request')
-        self.assertEqual(context, (None,))
+        self.assertEqual(context, (None, None))
         self.assertEqual(iface, ILayout)
 
     def test_second_multi_layout(self):
@@ -481,7 +483,7 @@ class Test_add_layout(unittest.TestCase):
         args, kwargs = config.action.call_args
         self.assertIn('introspectables', kwargs)
         discriminator, register = args
-        self.assertEqual(discriminator, ('layout', None, 'foo', IContainer))
+        self.assertEqual(discriminator, ('layout', None, None, 'foo', IContainer))
         register()
         container = Container()
         layout = multi(container, 'request')
