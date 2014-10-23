@@ -45,7 +45,7 @@ class LayoutManagerTests(unittest.TestCase):
         lm = self.make_one('context', request)
         self.assertEqual(lm.render_panel('test'), 'Test Panel')
         lookup.assert_called_once_with(
-            (providedBy('context'),), IPanel, name='test')
+            (providedBy('context'), providedBy(request)), IPanel, name='test')
         panel.assert_called_once_with('context', request)
 
     def test_render_panel_with_args(self):
@@ -58,7 +58,7 @@ class LayoutManagerTests(unittest.TestCase):
         lm = self.make_one('context', request)
         self.assertEqual(lm.render_panel('test', 1, two=3), 'Test Panel')
         lookup.assert_called_once_with(
-            (providedBy('context'),), IPanel, name='test')
+            (providedBy('context'), providedBy(request)), IPanel, name='test')
         panel.assert_called_once_with('context', request, 1, two=3)
 
     def test_render_panel_no_panel(self):
@@ -70,7 +70,7 @@ class LayoutManagerTests(unittest.TestCase):
         lm = self.make_one('context', request)
         self.assertEqual(lm.render_panel('test'), None)
         lookup.assert_called_once_with(
-            (providedBy('context'),), IPanel, name='test')
+            (providedBy('context'), providedBy(request)), IPanel, name='test')
 
     @mock.patch('pyramid_layout.layout.find_layout')
     def test_layout_predicate(self, find_layout):
@@ -101,7 +101,7 @@ class Test_find_layout(unittest.TestCase):
         find_layout('context', request, 'test')
         Layout.assert_called_once_with('context', request)
         lookup.assert_called_once_with(
-            (providedBy('context'),), ILayout, name='test')
+            (providedBy('context'), providedBy(request)), ILayout, name='test')
 
     def test_layout_none(self):
         from pyramid_layout.interfaces import ILayout

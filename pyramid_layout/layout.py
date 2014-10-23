@@ -54,7 +54,7 @@ class LayoutManager(object):
         context = kw.pop('context', self.context)
         request = self.request
         adapters = request.registry.adapters
-        panel = adapters.lookup((providedBy(context),), IPanel, name=name)
+        panel = adapters.lookup((providedBy(context), providedBy(request)), IPanel, name=name)
         if panel is None:
             # Mimics behavior of pyramid.view.render_view
             return None
@@ -63,7 +63,7 @@ class LayoutManager(object):
 
 def find_layout(context, request, name=''):
     adapters = request.registry.adapters
-    layout = adapters.lookup((providedBy(context),), ILayout, name=name)
+    layout = adapters.lookup((providedBy(context), providedBy(request)), ILayout, name=name)
     if layout is not None:
         return layout(context, request)
 
